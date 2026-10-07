@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl" class="in-text" version="1.0" default-locale="en-US" demote-non-dropping-particle="never" initialize-with-hyphen="false" page-range-format="expanded">
+  <!-- Tugas Akhir: IPB PPTA 2026, Bab VII Kepustakaan (printed pp. 67-80). Unofficial, written from the guide's text.
+       One file, two languages. Indonesian is the default; pandoc switches to English with `-M lang=en-US`.
+       Every language-specific word is a term in the two <locale> blocks, so the macros below are shared.
+       Rules and the places where the guide is silent or contradicts itself: ipb-citation.md. Check: check_ipb_csl.py. -->
+  <info>
+    <title>IPB: Pedoman Penyajian Tugas Akhir 2026 (PPTA, unofficial, English)</title>
+    <title-short>IPB PPTA 2026 (EN)</title-short>
+    <id>http://www.zotero.org/styles/ipb-ppta-2026-en-unofficial</id>
+    <link href="http://www.zotero.org/styles/institut-pertanian-bogor" rel="template"/>
+    <link href="https://ipb.link/suplemen-ppta" rel="documentation"/>
+    <contributor>
+      <name>Auriza Rahmad Akbar</name>
+      <email>auriza.akbar@gmail.com</email>
+    </contributor>
+    <contributor>
+      <name>M. Rachmatarramadhan</name>
+      <email>rachmatarramadhan@gmail.com</email>
+    </contributor>
+    <category citation-format="author-date"/>
+    <category field="science"/>
+    <summary>IPB PPTA 2026 (Peraturan Rektor 48/2025): Harvard name-year after CSE 9th ed. Written from Bab VII for a Tugas Akhir (2026-10-07), starting from the Zotero "Institut Pertanian Bogor" PPKI 3 style by the contributors above.</summary>
+    <updated>2026-10-07T00:00:00+07:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">This work is licensed under a Creative Commons Attribution-ShareAlike 3.0 License</rights>
+  </info>
+  <locale xml:lang="id">
+    <terms>
+      <term name="and">dan</term>
+      <term name="et-al">et al.</term>
+      <term name="in">di dalam</term>
+      <term name="accessed">diakses</term>
+      <term name="preprint">pracetak</term>
+      <term name="no date">tahun terbit tidak diketahui</term>
+      <term name="patent">paten</term>
+      <!-- the role term for authors, blank in every official locale; the patent form uses it as the inventors' label -->
+      <term name="author">penemu</term>
+      <term name="no-publisher">penerbit tidak diketahui</term>
+      <term name="editor">
+        <single>editor</single>
+        <multiple>editor</multiple>
+      </term>
+      <term name="translator">
+        <single>penerjemah</single>
+        <multiple>penerjemah</multiple>
+      </term>
+      <term name="edition" form="short">Ed</term>
+      <term name="volume" form="short">
+        <single>Vol</single>
+        <multiple>Vol</multiple>
+      </term>
+      <!-- keeps its period so pandoc still reads "[@key, hlm. 4]"; the bibliography strips it -->
+      <term name="page" form="short">
+        <single>hlm.</single>
+        <multiple>hlm.</multiple>
+      </term>
+      <term name="month-01" form="short">Jan</term>
+      <term name="month-02" form="short">Feb</term>
+      <term name="month-03" form="short">Mar</term>
+      <term name="month-04" form="short">Apr</term>
+      <term name="month-05" form="short">Mei</term>
+      <term name="month-06" form="short">Jun</term>
+      <term name="month-07" form="short">Jul</term>
+      <term name="month-08" form="short">Agu</term>
+      <term name="month-09" form="short">Sep</term>
+      <term name="month-10" form="short">Okt</term>
+      <term name="month-11" form="short">Nov</term>
+      <term name="month-12" form="short">Des</term>
+    </terms>
+  </locale>
+  <locale xml:lang="en">
+    <terms>
+      <term name="and">and</term>
+      <term name="et-al">et al.</term>
+      <term name="in">in</term>
+      <term name="accessed">accessed</term>
+      <term name="preprint">preprint</term>
+      <term name="no date">date unknown</term>
+      <term name="patent">patent</term>
+      <term name="author">inventor</term>
+      <term name="no-publisher">publisher unknown</term>
+      <term name="editor">
+        <single>editor</single>
+        <multiple>editors</multiple>
+      </term>
+      <term name="translator">
+        <single>translator</single>
+        <multiple>translators</multiple>
+      </term>
+      <term name="edition" form="short">Ed</term>
+      <term name="volume" form="short">
+        <single>Vol</single>
+        <multiple>Vol</multiple>
+      </term>
+      <term name="page" form="short">
+        <single>p.</single>
+        <multiple>pp.</multiple>
+      </term>
+      <term name="month-01" form="short">Jan</term>
+      <term name="month-02" form="short">Feb</term>
+      <term name="month-03" form="short">Mar</term>
+      <term name="month-04" form="short">Apr</term>
+      <term name="month-05" form="short">May</term>
+      <term name="month-06" form="short">Jun</term>
+      <term name="month-07" form="short">Jul</term>
+      <term name="month-08" form="short">Aug</term>
+      <term name="month-09" form="short">Sep</term>
+      <term name="month-10" form="short">Oct</term>
+      <term name="month-11" form="short">Nov</term>
+      <term name="month-12" form="short">Dec</term>
+    </terms>
+  </locale>
+  <!-- 7.2.1.1: "Mattjik AA"; no "dan". An editor standing in for the author gets ", editor"; with no name at all, the title leads -->
+  <macro name="author">
+    <choose>
+      <!-- 7.2.5a: "Ramadhan W, Santoso J, penemu; Institut Pertanian Bogor". The holder is the publisher variable -->
+      <if type="patent">
+        <group delimiter="; ">
+          <names variable="author">
+            <name/>
+            <et-al font-style="italic"/>
+            <label form="long" prefix=", "/>
+          </names>
+          <text variable="publisher"/>
+        </group>
+      </if>
+      <else>
+        <names variable="author">
+          <name/>
+          <et-al font-style="italic"/>
+          <substitute>
+            <names variable="editor">
+              <name/>
+              <et-al font-style="italic"/>
+              <label form="long" prefix=", "/>
+            </names>
+            <names variable="translator">
+              <name/>
+              <et-al font-style="italic"/>
+              <label form="long" prefix=", "/>
+            </names>
+            <text variable="title"/>
+          </substitute>
+        </names>
+      </else>
+    </choose>
+  </macro>
+  <!-- 7.1.3: "Naim", "Naim dan Keraf", "Naim et al."; no author: the Short Title, e.g. "UU" or "Tren ..." -->
+  <macro name="author-short">
+    <names variable="author">
+      <name form="short" and="text"/>
+      <et-al font-style="italic"/>
+      <substitute>
+        <names variable="editor"/>
+        <names variable="translator"/>
+        <text variable="title" form="short"/>
+      </substitute>
+    </names>
+  </macro>
+  <!-- explicit year-suffix, so "2009a" has no space. 7.2.1.2d: no year prints "[tahun terbit tidak diketahui]" -->
+  <macro name="year">
+    <choose>
+      <if variable="issued">
+        <group>
+          <date variable="issued">
+            <date-part name="year"/>
+          </date>
+          <text variable="year-suffix"/>
+        </group>
+      </if>
+      <else>
+        <text term="no date" prefix="[" suffix="]"/>
+      </else>
+    </choose>
+  </macro>
+  <!-- 7.2.1.2: "2025 Agu 21" for news, web pages, and journals without volume and issue (p. 75 keeps the bare year for "siap terbit") -->
+  <macro name="date">
+    <group delimiter=" ">
+      <text macro="year"/>
+      <choose>
+        <if type="article-newspaper webpage post post-weblog patent" match="any">
+          <date variable="issued" delimiter=" ">
+            <date-part name="month" form="short"/>
+            <date-part name="day"/>
+          </date>
+        </if>
+        <else-if type="article-journal article-magazine" match="any">
+          <choose>
+            <if variable="volume issue status" match="none">
+              <date variable="issued" delimiter=" ">
+                <date-part name="month" form="short"/>
+                <date-part name="day"/>
+              </date>
+            </if>
+          </choose>
+        </else-if>
+      </choose>
+    </group>
+  </macro>
+  <!-- 7.2.2.1: book titles in italics. Titles print as stored: Title Case for books and sentence case for the rest are data jobs.
+       "[pracetak]" is this project's extension (the guide has no preprint form); "[ulasan]", "[skripsi]" come from the item's genre -->
+  <macro name="title">
+    <choose>
+      <if type="book" match="any">
+        <text variable="title" font-style="italic"/>
+      </if>
+      <else>
+        <group delimiter=" ">
+          <text variable="title"/>
+          <choose>
+            <if type="article" match="any">
+              <text term="preprint" prefix="[" suffix="]"/>
+            </if>
+            <else-if type="article-journal thesis" match="any">
+              <text variable="genre" prefix="[" suffix="]"/>
+            </else-if>
+          </choose>
+        </group>
+      </else>
+    </choose>
+  </macro>
+  <macro name="edition">
+    <choose>
+      <if is-numeric="edition">
+        <group delimiter=" ">
+          <text term="edition" form="short"/>
+          <number variable="edition"/>
+        </group>
+      </if>
+      <else>
+        <text variable="edition"/>
+      </else>
+    </choose>
+  </macro>
+  <!-- 7.2.2.2 (p. 77): "Vol 6: Pigs, Hippopotamuses, ..." when the volume has its own title -->
+  <macro name="volume">
+    <group delimiter=": ">
+      <group delimiter=" ">
+        <text term="volume" form="short"/>
+        <number variable="volume"/>
+      </group>
+      <text variable="volume-title" font-style="italic"/>
+    </group>
+  </macro>
+  <!-- 7.2.2-7.2.3: books, chapters and proceedings name the publisher only, or "[penerbit tidak diketahui]" (p. 76);
+       7.2.4 and 7.2.5e keep "Bogor: Institut Pertanian Bogor" -->
+  <macro name="publisher">
+    <choose>
+      <if type="book chapter paper-conference" match="any">
+        <choose>
+          <if variable="publisher">
+            <text variable="publisher"/>
+          </if>
+          <else>
+            <text term="no-publisher" prefix="[" suffix="]"/>
+          </else>
+        </choose>
+      </if>
+      <else-if type="article">
+        <text variable="publisher"/>
+      </else-if>
+      <else>
+        <group delimiter=": ">
+          <text variable="publisher-place"/>
+          <text variable="publisher"/>
+        </group>
+      </else>
+    </choose>
+  </macro>
+  <macro name="event-name">
+    <choose>
+      <if variable="event-title">
+        <text variable="event-title"/>
+      </if>
+      <else>
+        <!-- pandoc's BibLaTeX reader still writes the legacy name -->
+        <text variable="event"/>
+      </else>
+    </choose>
+  </macro>
+  <!-- 7.2.2.2, 7.2.3.2: "Di dalam: Aguirre AA, Sukumar R, editor. Book Title; 2015 Okt 19-20; Bogor, Indonesia" -->
+  <macro name="container">
+    <group delimiter=": ">
+      <text term="in" text-case="capitalize-first"/>
+      <group delimiter=". ">
+        <names variable="editor">
+          <name/>
+          <label form="long" prefix=", "/>
+        </names>
+        <group delimiter="; ">
+          <choose>
+            <!-- 7.2.3.1: the book title, followed by the meeting name when both exist -->
+            <if variable="container-title">
+              <group delimiter=". ">
+                <text variable="container-title" font-style="italic"/>
+                <text macro="event-name"/>
+              </group>
+            </if>
+            <else>
+              <text macro="event-name" font-style="italic"/>
+            </else>
+          </choose>
+          <choose>
+            <!-- Zotero copies a book's Place into event-place too, so only proceedings print it -->
+            <if type="paper-conference">
+              <group delimiter="; ">
+                <date variable="event-date" delimiter=" ">
+                  <date-part name="year"/>
+                  <date-part name="month" form="short"/>
+                  <date-part name="day"/>
+                </date>
+                <choose>
+                  <if variable="event-place">
+                    <text variable="event-place"/>
+                  </if>
+                  <else>
+                    <!-- BibTeX "address" arrives as publisher-place -->
+                    <text variable="publisher-place"/>
+                  </else>
+                </choose>
+              </group>
+            </if>
+          </choose>
+        </group>
+      </group>
+    </group>
+  </macro>
+  <!-- 7.2.1.6: "doi:10.5454/mi.4.3.1". Without a DOI, 7.2.5d: "[diakses 2019 Sep 1]. URL".
+       7.2.4 gives theses one form for print and electronic, so they get neither.
+       7.2.1.8: the journal form ends with the DOI; none of its examples without one prints a URL -->
+  <macro name="access">
+    <choose>
+      <if type="thesis"/>
+      <else-if variable="DOI">
+        <text variable="DOI" prefix="doi:"/>
+      </else-if>
+      <else-if type="article-journal article-magazine" match="any"/>
+      <else-if variable="URL">
+        <group delimiter=". ">
+          <group prefix="[" suffix="]" delimiter=" ">
+            <text term="accessed"/>
+            <date variable="accessed" delimiter=" ">
+              <date-part name="year"/>
+              <date-part name="month" form="short"/>
+              <date-part name="day"/>
+            </date>
+          </group>
+          <text variable="URL"/>
+        </group>
+      </else-if>
+    </choose>
+  </macro>
+  <!-- 7.1: "(Naim 1984:284)". Oldest first and "(Sunarti 2005, 2006)" are carried over from PPKI 4; the PPTA text is silent -->
+  <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="true" collapse="year">
+    <sort>
+      <key variable="issued"/>
+      <key macro="author-short"/>
+    </sort>
+    <layout prefix="(" suffix=")" delimiter="; ">
+      <group delimiter=" ">
+        <text macro="author-short"/>
+        <text macro="year"/>
+      </group>
+      <choose>
+        <if locator="page">
+          <text variable="locator" prefix=":"/>
+        </if>
+        <else>
+          <!-- not a page: "(Naim 1984, bab 3)" -->
+          <group prefix=", " delimiter=" ">
+            <label variable="locator" form="long"/>
+            <text variable="locator"/>
+          </group>
+        </else>
+      </choose>
+    </layout>
+  </citation>
+  <!-- 7.2.1.1: up to 5 authors, then the first 5 and "et al." -->
+  <bibliography et-al-min="6" et-al-use-first="5" name-as-sort-order="all" sort-separator=" " initialize-with="" hanging-indent="true">
+    <sort>
+      <key macro="author"/>
+      <key variable="issued"/>
+      <key variable="title"/>
+    </sort>
+    <layout suffix=".">
+      <group delimiter=". ">
+        <text macro="author"/>
+        <text macro="date"/>
+        <text macro="title"/>
+        <choose>
+          <!-- 7.2.1.8: "J Biol Chem. 26(2):64-68" -->
+          <if type="article-journal article-magazine" match="any">
+            <!-- p. 75: "Chem Biodivers., siap terbit" for an accepted article without volume and pages -->
+            <group>
+              <text variable="container-title" form="short" font-style="italic" strip-periods="true"/>
+              <text variable="status" prefix="., "/>
+            </group>
+            <group delimiter=":">
+              <group>
+                <text variable="volume"/>
+                <text variable="issue" prefix="(" suffix=")"/>
+              </group>
+              <text variable="page"/>
+            </group>
+          </if>
+          <else-if type="chapter paper-conference entry-dictionary entry-encyclopedia" match="any">
+            <text macro="container"/>
+            <text macro="edition"/>
+            <text macro="volume"/>
+            <text macro="publisher"/>
+            <group delimiter=" ">
+              <label variable="page" form="short" plural="never" strip-periods="true"/>
+              <text variable="page"/>
+            </group>
+          </else-if>
+          <!-- 7.2.5b-d: "Media Indonesia. Rubrik Opini: 9" -->
+          <else-if type="article-newspaper webpage post post-weblog" match="any">
+            <text variable="container-title"/>
+            <group delimiter=": ">
+              <text variable="section"/>
+              <text variable="page"/>
+            </group>
+          </else-if>
+          <!-- 7.2.5a: "Paten Indonesia ID S000010062". The country is the authority variable (Zotero: Issuing Authority), as in APA -->
+          <else-if type="patent">
+            <group delimiter=" ">
+              <text term="patent" text-case="capitalize-first"/>
+              <text variable="authority"/>
+              <text variable="number"/>
+            </group>
+          </else-if>
+          <!-- books, theses, documents, preprints, legal documents -->
+          <else>
+            <text macro="edition"/>
+            <text macro="volume"/>
+            <names variable="editor translator" delimiter=". ">
+              <name/>
+              <label form="long" prefix=", "/>
+            </names>
+            <text macro="publisher"/>
+          </else>
+        </choose>
+        <text macro="access"/>
+      </group>
+    </layout>
+  </bibliography>
+</style>
