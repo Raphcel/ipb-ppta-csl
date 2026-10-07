@@ -12,13 +12,13 @@ Gaya sitasi [CSL](https://citationstyles.org/) **tidak resmi** untuk *Pedoman Pe
 |---|---|
 | `ipb-ppta.csl` | Gaya sitasi, bahasa Indonesia sebagai bawaan |
 | `ipb-ppta-en.csl` | Gaya yang sama dengan bahasa Inggris, untuk Zotero. Lihat [Versi bahasa Inggris](#versi-bahasa-inggris) |
-| `tools/` | Untuk pemelihara gaya: skrip pengujian dan pembuat berkas versi Inggris |
+| `tools/` | Untuk pemeliharaan gaya: skrip pengujian dan pembuat berkas versi Inggris |
 
 Acuan gaya ini: *Pedoman Penyajian Tugas Akhir IPB* (Peraturan Rektor IPB Nomor 48 Tahun 2025; IPB Press, cetakan 1, Januari 2026), Bab VII, hlm. 67–80. Pada berkas PDF resminya, halaman cetak N ada di halaman PDF N + 20. Suplemen resminya ada di <https://ipb.link/suplemen-ppta>.
 
 ## Templat dokumen
 
-- Templat resmi PPTA (Word) dan suplemen lainnya: **<https://ipb.link/suplemen-ppta>** (Google Drive, perlu masuk dengan akun Google). Suplemen 1 adalah templat; Suplemen 7–8 memuat penulisan nama penulis; Suplemen 9 daftar singkatan nama penerbit.
+- Templat resmi PPTA (Word) dan suplemen lainnya: **<https://ipb.link/suplemen-ppta>** (Google Drive, perlu masuk dengan akun IPB). Suplemen 1 adalah templat; Suplemen 7–8 memuat penulisan nama penulis; Suplemen 9 daftar singkatan nama penerbit.
 - **Templat LaTeX: sedang dikerjakan.** Akan ditambahkan ke repositori ini.
 
 ## Pemasangan
