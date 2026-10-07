@@ -1,6 +1,6 @@
 # ipb-ppta-csl
 
-Gaya sitasi [CSL](https://citationstyles.org/) **tidak resmi** untuk *Pedoman Penyajian Tugas Akhir IPB* (PPTA 2026, Peraturan Rektor IPB Nomor 48 Tahun 2025), Bab VII Kepustakaan: sistem Harvard (nama-tahun) mengikuti CSE edisi ke-9. Untuk Zotero dan Mendeley.
+Gaya sitasi [CSL](https://citationstyles.org/) **tidak resmi** untuk *Pedoman Penyajian Tugas Akhir IPB* (PPTA 2026, Peraturan Rektor IPB Nomor 48 Tahun 2025). Untuk Zotero dan Mendeley.
 
 [English version of this README](README.en.md)
 
