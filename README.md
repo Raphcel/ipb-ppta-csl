@@ -11,11 +11,11 @@ Gaya sitasi [CSL](https://citationstyles.org/) **tidak resmi** untuk *Pedoman Pe
 | Berkas | Keterangan |
 |---|---|
 | `ipb-ppta.csl` | Gaya sitasi, bahasa Indonesia sebagai bawaan |
-| `ipb-ppta-en.csl` | Gaya yang sama dengan bahasa Inggris sebagai bawaan, untuk Zotero. Lihat [Versi bahasa Inggris](#versi-bahasa-inggris) |
+| `ipb-ppta-en.csl` | Gaya yang sama dengan bahasa Inggris, untuk Zotero. Lihat [Versi bahasa Inggris](#versi-bahasa-inggris) |
 | `check_ipb_csl.py` | Pengujian: merender contoh-contoh Bab VII lewat pandoc dan memastikan hasilnya sama dengan pedoman |
 | `make_en.py` | Membuat `ipb-ppta-en.csl` dari `ipb-ppta.csl` |
 
-Pedomannya sendiri tidak disertakan: hak ciptanya milik IPB dan dilarang diperbanyak tanpa izin tertulis. Acuan gaya ini: *Pedoman Penyajian Tugas Akhir IPB* (Peraturan Rektor IPB Nomor 48 Tahun 2025; IPB Press, cetakan 1, Januari 2026), Bab VII, hlm. 67–80. Pada berkas PDF resminya, halaman cetak N ada di halaman PDF N + 20. Suplemen resminya ada di <https://ipb.link/suplemen-ppta>.
+Acuan gaya ini: *Pedoman Penyajian Tugas Akhir IPB* (Peraturan Rektor IPB Nomor 48 Tahun 2025; IPB Press, cetakan 1, Januari 2026), Bab VII, hlm. 67–80. Pada berkas PDF resminya, halaman cetak N ada di halaman PDF N + 20. Suplemen resminya ada di <https://ipb.link/suplemen-ppta>.
 
 ## Templat dokumen
 
@@ -30,15 +30,7 @@ Pedomannya sendiri tidak disertakan: hak ciptanya milik IPB dan dilarang diperba
 2. Zotero 7: **Edit → Settings → Cite → Styles → +**, pilih berkas itu. Zotero 6: Edit → Preferences → Cite → Styles → +.
 3. Di Word, LibreOffice, atau Google Docs: **Zotero → Document Preferences**, pilih *IPB: Pedoman Penyajian Tugas Akhir 2026 (PPTA, tidak resmi)*.
 
-Gaya ini menetapkan bahasa Indonesia sebagai bawaan, sehingga pilihan *Language* di Zotero tidak aktif. Untuk bahasa Inggris pasang `ipb-ppta-en.csl`.
-
-### pandoc
-
-```sh
-pandoc naskah.md --citeproc --bibliography=pustaka.json --csl=ipb-ppta.csl -M lang=id-ID -o naskah.docx
-```
-
-Satu berkas untuk dua bahasa: `-M lang=en-US` menghasilkan versi Inggris dari berkas yang sama. Rujukan halaman ditulis `[@kunci, 284]` dan dirender `(Naim 1984:284)`; rujukan selain halaman, misalnya `[@kunci, bab 3]`, dirender `(Naim 1984, bab 3)`. Ekspor pustaka dari Zotero sebagai **CSL JSON**, bukan BibTeX, agar jenis *Preprint* dan isian *Extra* ikut terbawa.
+Gaya ini menetapkan bahasa Indonesia sebagai bawaan. Untuk bahasa Inggris gunakan `ipb-ppta-en.csl`.
 
 ### Mendeley
 
@@ -116,22 +108,13 @@ Satu gaya, dua bahasa. Yang berubah hanya kata penghubung dan nama bulan; bentuk
 
 Cara memakainya:
 
-- **pandoc:** berkas yang sama dengan `-M lang=en-US`, atau `lang: en-US` di metadata YAML dokumen.
 - **Zotero:** pasang `ipb-ppta-en.csl` dan pilih *IPB: Pedoman Penyajian Tugas Akhir 2026 (PPTA, unofficial, English)* di Document Preferences. Berkas ini dibuat dari `ipb-ppta.csl` oleh `make_en.py`; hanya bahasa bawaan, nama, dan id gaya yang berbeda.
 
 Judul, nama jurnal, dan nama penerbit dicetak seperti di data; judul berbahasa Indonesia tidak diterjemahkan.
 
-## Pengujian
-
-```sh
-python check_ipb_csl.py      # butuh pandoc 3 di PATH
-python make_en.py --check    # ipb-ppta-en.csl sinkron dengan ipb-ppta.csl
-```
-
-Setelah mengubah `ipb-ppta.csl`: jalankan `python check_ipb_csl.py`, lalu `python make_en.py` untuk memperbarui versi Inggris.
 
 ## Lisensi dan kredit
 
 - Berkas `.csl`: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). Dikembangkan dari gaya Zotero "Institut Pertanian Bogor" (PPKI Edisi ke-3) karya Auriza Rahmad Akbar dan M. Rachmatarramadhan.
 - Pedoman PPTA: hak cipta IPB / IPB Press; tidak disertakan di repositori ini.
-- Dibuat untuk sebuah tugas akhir di IPB dengan bantuan Claude Code; setiap bentuk diuji terhadap contoh-contoh pedoman lewat `check_ipb_csl.py`.
+- Dibuat untuk sebuah tugas akhir di IPB, dengan bantuan Claude; setiap bentuk diuji terhadap contoh-contoh pedoman lewat `check_ipb_csl.py`.
