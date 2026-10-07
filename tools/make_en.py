@@ -6,7 +6,7 @@ Only the default locale, the style name and the style id differ; the macros are 
 import pathlib
 import sys
 
-SRC = pathlib.Path(__file__).with_name("ipb-ppta.csl")
+SRC = pathlib.Path(__file__).resolve().parent.parent / "ipb-ppta.csl"  # the repo root
 DST = SRC.with_name("ipb-ppta-en.csl")
 EDITS = [
     ('default-locale="id-ID"', 'default-locale="en-US"'),
@@ -24,7 +24,7 @@ for old, new in EDITS:
 
 if "--check" in sys.argv:
     if not DST.exists() or DST.read_text(encoding="utf-8") != text:
-        sys.exit(f"{DST.name} is out of date: run python make_en.py")
+        sys.exit(f"{DST.name} is out of date: run python tools/make_en.py")
     print(f"{DST.name}: in sync")
 else:
     DST.write_text(text, encoding="utf-8", newline="\n")

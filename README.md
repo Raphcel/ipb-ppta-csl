@@ -12,8 +12,7 @@ Gaya sitasi [CSL](https://citationstyles.org/) **tidak resmi** untuk *Pedoman Pe
 |---|---|
 | `ipb-ppta.csl` | Gaya sitasi, bahasa Indonesia sebagai bawaan |
 | `ipb-ppta-en.csl` | Gaya yang sama dengan bahasa Inggris, untuk Zotero. Lihat [Versi bahasa Inggris](#versi-bahasa-inggris) |
-| `check_ipb_csl.py` | Pengujian: merender contoh-contoh Bab VII lewat pandoc dan memastikan hasilnya sama dengan pedoman |
-| `make_en.py` | Membuat `ipb-ppta-en.csl` dari `ipb-ppta.csl` |
+| `tools/` | Untuk pemelihara gaya: skrip pengujian dan pembuat berkas versi Inggris |
 
 Acuan gaya ini: *Pedoman Penyajian Tugas Akhir IPB* (Peraturan Rektor IPB Nomor 48 Tahun 2025; IPB Press, cetakan 1, Januari 2026), Bab VII, hlm. 67–80. Pada berkas PDF resminya, halaman cetak N ada di halaman PDF N + 20. Suplemen resminya ada di <https://ipb.link/suplemen-ppta>.
 
@@ -85,7 +84,7 @@ Gaya mencetak data apa adanya. Hal-hal berikut diatur di Zotero:
 | Titik setelah *et al.* | Aturan: tanpa titik tambahan (hlm. 69). Contoh mencetak `et al..` (hlm. 73) | `et al. 2026.` |
 | Prosiding daring | Templat: `halaman artikel. Lokasi (URL)`. Contoh: `hlm 167–175; [diakses …]. URL` (hlm. 78) | `hlm 167–175. [diakses …]. URL.` |
 | Tempat terbit | Hilang dari buku (hlm. 76); tetap ada pada dokumen dan skripsi (hlm. 78–79) | Mengikuti contoh, per jenis pustaka |
-| DOI selain artikel jurnal | Dicontohkan untuk artikel jurnal saja (7.2.1.6) | `doi:` dicetak untuk jenis apa pun yang memilikinya; jika tidak ada, `[diakses …]. URL` |
+| DOI dan URL | DOI dicontohkan untuk artikel jurnal saja (7.2.1.6); tidak ada contoh artikel jurnal tanpa DOI yang mencetak URL | `doi:` dicetak untuk jenis apa pun yang memilikinya. Tanpa DOI: artikel jurnal berhenti di halaman; jenis lain mencetak `[diakses …]. URL` |
 | Pracetak | Tidak ada bentuk | `[pracetak]` setelah judul |
 | Beberapa acuan sekaligus; penulis yang sama | Tidak dibahas di teks PPTA | Urut tahun, dipisah `;`; (Sunarti 2005, 2006); (Puspitawati 2009a, 2009b), diwarisi dari PPKI Edisi 4 |
 | Bahasa Inggris | PPTA berlaku untuk kelas internasional, tetapi tidak memberi bentuk Inggris | Kata penghubung mengikuti CSE: "and", "In:", "editors", "accessed", "p", "inventor" |
@@ -108,7 +107,7 @@ Satu gaya, dua bahasa. Yang berubah hanya kata penghubung dan nama bulan; bentuk
 
 Cara memakainya:
 
-- **Zotero:** pasang `ipb-ppta-en.csl` dan pilih *IPB: Pedoman Penyajian Tugas Akhir 2026 (PPTA, unofficial, English)* di Document Preferences. Berkas ini dibuat dari `ipb-ppta.csl` oleh `make_en.py`; hanya bahasa bawaan, nama, dan id gaya yang berbeda.
+- **Zotero:** pasang `ipb-ppta-en.csl` dan pilih *IPB: Pedoman Penyajian Tugas Akhir 2026 (PPTA, unofficial, English)* di Document Preferences. Berkas ini dibuat dari `ipb-ppta.csl` oleh `tools/make_en.py`; hanya bahasa bawaan, nama, dan id gaya yang berbeda.
 
 Judul, nama jurnal, dan nama penerbit dicetak seperti di data; judul berbahasa Indonesia tidak diterjemahkan.
 
@@ -117,4 +116,4 @@ Judul, nama jurnal, dan nama penerbit dicetak seperti di data; judul berbahasa I
 
 - Berkas `.csl`: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). Dikembangkan dari gaya Zotero "Institut Pertanian Bogor" (PPKI Edisi ke-3) karya Auriza Rahmad Akbar dan M. Rachmatarramadhan.
 - Pedoman PPTA: hak cipta IPB / IPB Press; tidak disertakan di repositori ini.
-- Dibuat untuk sebuah tugas akhir di IPB, dengan bantuan Claude; setiap bentuk diuji terhadap contoh-contoh pedoman lewat `check_ipb_csl.py`.
+- Dibuat untuk sebuah tugas akhir di IPB, dengan bantuan Claude; setiap bentuk diuji terhadap contoh-contoh pedoman lewat `tools/check_ipb_csl.py`.

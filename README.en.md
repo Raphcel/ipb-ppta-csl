@@ -11,11 +11,10 @@ An **unofficial** [CSL](https://citationstyles.org/) citation style for IPB Univ
 | File | What it is |
 |---|---|
 | `ipb-ppta.csl` | The style, Indonesian by default |
-| `ipb-ppta-en.csl` | The same style with English as the default language, for Zotero. See [Using the English version](#using-the-english-version) |
-| `check_ipb_csl.py` | The test: renders the Chapter VII examples through pandoc and asserts the guide's forms |
-| `make_en.py` | Derives `ipb-ppta-en.csl` from `ipb-ppta.csl` |
+| `ipb-ppta-en.csl` | The same style in English, for Zotero. See [Using the English version](#using-the-english-version) |
+| `tools/` | For maintainers: the test and the script that derives the English file |
 
-The guide itself is not included: it is IPB's copyright and may not be reproduced without written permission. The source of this style is *Pedoman Penyajian Tugas Akhir IPB* (Rector's Regulation No. 48 of 2025; IPB Press, first printing, January 2026), Chapter VII, pp. 67–80. In the official PDF, printed page N is PDF page N + 20. The official supplements are at <https://ipb.link/suplemen-ppta>.
+The source of this style is *Pedoman Penyajian Tugas Akhir IPB* (Rector's Regulation No. 48 of 2025; IPB Press, first printing, January 2026), Chapter VII, pp. 67–80. In the official PDF, printed page N is PDF page N + 20. The official supplements are at <https://ipb.link/suplemen-ppta>.
 
 ## Document templates
 
@@ -30,15 +29,7 @@ The guide itself is not included: it is IPB's copyright and may not be reproduce
 2. Zotero 7: **Edit → Settings → Cite → Styles → +**, then pick the file. Zotero 6: Edit → Preferences → Cite → Styles → +.
 3. In Word, LibreOffice or Google Docs: **Zotero → Document Preferences**, choose *IPB: Pedoman Penyajian Tugas Akhir 2026 (PPTA, tidak resmi)*.
 
-The style fixes Indonesian as its default language, so Zotero's *Language* option is disabled. For English, install `ipb-ppta-en.csl`.
-
-### pandoc
-
-```sh
-pandoc thesis.md --citeproc --bibliography=refs.json --csl=ipb-ppta.csl -M lang=en-US -o thesis.docx
-```
-
-One file, two languages: `-M lang=id-ID` gives the Indonesian forms from the same file. A page locator is written `[@key, 284]` and renders `(Naim 1984:284)`; other locators, such as `[@key, chapter 3]`, render `(Naim 1984, chapter 3)`. Export your library from Zotero as **CSL JSON**, not BibTeX, so that the *Preprint* item type and the *Extra* fields survive.
+The style fixes Indonesian as its default language. For English, use `ipb-ppta-en.csl`.
 
 ### Mendeley
 
@@ -93,7 +84,7 @@ The style prints data as stored. These are set in Zotero:
 | Period after *et al.* | The rule says no extra period (p. 69). The example prints `et al..` (p. 73) | `et al. 2026.` |
 | Online proceedings | The template reads `halaman artikel. Lokasi (URL)`. The example prints `hlm 167–175; [diakses …]. URL` (p. 78) | `hlm 167–175. [diakses …]. URL.` |
 | Place of publication | Gone from books (p. 76), kept in the document and thesis examples (pp. 78–79) | Follows the examples, by item type |
-| DOI outside journal articles | Shown for journal articles only (7.2.1.6) | `doi:` on any item that has one; otherwise `[diakses …]. URL` |
+| DOI and URL | The DOI is shown for journal articles only (7.2.1.6); no journal example without a DOI prints a URL | `doi:` on any item that has one. Without a DOI: a journal article ends at its pages; other types print `[diakses …]. URL` |
 | Preprints | No form | `[pracetak]` after the title |
 | Several works in one citation; the same author | Not covered in the PPTA text | Oldest first, joined by `;`; (Sunarti 2005, 2006); (Puspitawati 2009a, 2009b), carried over from PPKI 4th edition |
 | English wording | PPTA applies to international classes but gives no English forms | Connecting words follow CSE: "and", "In:", "editors", "accessed", "p", "inventor" |
@@ -116,22 +107,12 @@ One style, two languages. Only the connecting words and month names change; name
 
 How to get it:
 
-- **pandoc:** the same file with `-M lang=en-US`, or `lang: en-US` in the document's YAML metadata.
-- **Zotero:** install `ipb-ppta-en.csl` and choose *IPB: Pedoman Penyajian Tugas Akhir 2026 (PPTA, unofficial, English)* in Document Preferences. The file is derived from `ipb-ppta.csl` by `make_en.py`; only the default language, the style name and the style id differ.
+- **Zotero:** install `ipb-ppta-en.csl` and choose *IPB: Pedoman Penyajian Tugas Akhir 2026 (PPTA, unofficial, English)* in Document Preferences. The file is derived from `ipb-ppta.csl` by `tools/make_en.py`; only the default language, the style name and the style id differ.
 
 Titles, journal names and publisher names print as stored; Indonesian titles are not translated. PPTA gives no English forms of its own, so the English wording is this project's choice, following CSE.
-
-## Testing
-
-```sh
-python check_ipb_csl.py      # needs pandoc 3 on PATH
-python make_en.py --check    # ipb-ppta-en.csl is in sync with ipb-ppta.csl
-```
-
-After changing `ipb-ppta.csl`: run `python check_ipb_csl.py`, then `python make_en.py` to refresh the English file.
 
 ## License and credits
 
 - The `.csl` files: [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/). Developed from the Zotero style "Institut Pertanian Bogor" (PPKI 3rd edition) by Auriza Rahmad Akbar and M. Rachmatarramadhan.
 - The PPTA guide: copyright IPB / IPB Press; not included in this repository.
-- Made for a final project at IPB with the help of Claude Code; every form is tested against the guide's examples by `check_ipb_csl.py`.
+- Made for a final project at IPB with the help of Claude; every form is tested against the guide's examples by `tools/check_ipb_csl.py`.

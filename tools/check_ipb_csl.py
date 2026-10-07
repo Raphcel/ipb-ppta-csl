@@ -1,6 +1,6 @@
 """Render the PPTA 2026 Bab VII examples through ipb-ppta.csl and assert the guide's forms.
 
-Run: python thesis/pedoman/check_ipb_csl.py   (needs pandoc on PATH)
+Run it with python from any folder (needs pandoc on PATH).
 
 Fixtures are the guide's own examples (printed pp. 73-80), with initials as printed there.
 Where an example contradicts the guide's rule, the rule is asserted and the line says so.
@@ -13,7 +13,9 @@ import subprocess
 import sys
 import tempfile
 
-CSL = pathlib.Path(__file__).with_name("ipb-ppta.csl")
+HERE = pathlib.Path(__file__).resolve().parent
+# the style sits beside this script (the thesis folder) or one folder up (tools/ in the public repo)
+CSL = HERE / "ipb-ppta.csl" if (HERE / "ipb-ppta.csl").exists() else HERE.parent / "ipb-ppta.csl"
 
 
 def names(*people):
