@@ -1,6 +1,6 @@
 # ipb-ppta-csl
 
-An **unofficial** [CSL](https://citationstyles.org/) citation style for IPB University's *Pedoman Penyajian Tugas Akhir* (PPTA 2026, Rector's Regulation No. 48 of 2025), Chapter VII on references: the Harvard name-year system after CSE 9th edition. For Zotero and pandoc.
+An **unofficial** [CSL](https://citationstyles.org/) citation style for IPB University's *Pedoman Penyajian Tugas Akhir* (PPTA 2026, Rector's Regulation No. 48 of 2025), Chapter VII on references: the Harvard name-year system after CSE 9th edition. For Zotero and Mendeley.
 
 [Versi bahasa Indonesia](README.md)
 
@@ -33,8 +33,18 @@ The style fixes Indonesian as its default language. For English, use `ipb-ppta-e
 
 ### Mendeley
 
-PPTA (p. 67) says an IPB style is built into Mendeley. As of 7 October 2026, the "Institut Pertanian Bogor" style in the public CSL repository, which Mendeley and Zotero both use, is still the PPKI 3rd edition style from 2016: 10 authors, place of publication, "[diunduh …]". If your Mendeley version can add a style from a URL, use
-`https://raw.githubusercontent.com/Raphcel/ipb-ppta-csl/main/ipb-ppta.csl`.
+Mendeley adds a custom style from a URL:
+
+`https://raw.githubusercontent.com/Raphcel/ipb-ppta-csl/main/ipb-ppta.csl`
+
+- **Mendeley Cite (Word):** *Citation Settings → Change citation style → Add a custom style*, paste the URL above, then *Update citation style*.
+- **Mendeley Reference Manager:** *Preferences* (Ctrl + ,) → *Formatted Citation Style → Add custom style*, paste the URL, then *Add*; or upload the `.csl` file.
+
+The language follows the style, not Mendeley's language setting: `ipb-ppta.csl` always prints Indonesian. For English, use the same URL with the file name `ipb-ppta-en.csl`. Journal names are abbreviated automatically from Mendeley's own list.
+
+PPTA (p. 67) says an IPB style is built into Mendeley. As of 7 October 2026, the "Institut Pertanian Bogor" style in the public CSL repository, which Mendeley and Zotero both use, is still the PPKI 3rd edition style from 2016: 10 authors, place of publication, "[diunduh …]".
+
+Checked in the code of Mendeley Reference Manager 2.144.0 and Mendeley Cite, with the same citation engine (citeproc-js 1.4.61). Not yet tested by clicking through Word. See also [Entering data in Mendeley](#entering-data-in-mendeley).
 
 ## What it produces
 
@@ -54,7 +64,7 @@ Reference list, from the guide's own examples (Indonesian forms):
 - UU Republik Indonesia Nomor 20 Tahun 2023 Tentang Aparatur Sipil Negara. 2023.
 - Ramadhan W, Santoso J, Trilaksani W, Rieuwpassa FJ, penemu; Institut Pertanian Bogor. 2025 Mar 10. Proses pembuatan surimi kering beku (tepung surimi) ikan nila dengan penambahan cryoprotectant. Paten Indonesia ID S000010062.
 
-Preprints (arXiv) are not in the guide. The style follows the `[ulasan]`/`[editorial]` pattern of pp. 74–75: Aghajani Asl M, Minaei-Bidgoli B. 2025. FARSIQA: Faithful and advanced RAG system for Islamic question answering [pracetak]. arXiv. [diakses 2026 Okt 1]. https://arxiv.org/abs/2510.25621.
+Preprints (arXiv) are not in the guide. The style follows the `[ulasan]`/`[editorial]` pattern of pp. 74–75, with the label taken from the item's *Genre*: Aghajani Asl M, Minaei-Bidgoli B. 2025. FARSIQA: Faithful and advanced RAG system for Islamic question answering [pracetak]. arXiv. [diakses 2026 Okt 1]. https://arxiv.org/abs/2510.25621.
 
 ## Entering data in Zotero
 
@@ -68,13 +78,32 @@ The style prints data as stored. These are set in Zotero:
 | Article type | *Extra*: `genre: ulasan` (or `editorial`, `komunikasi singkat`, `catatan penelitian`, `ulas balik`). |
 | Thesis | *Type*: `skripsi`, `tesis` or `disertasi` (also `perangkat lunak`, `studi kasus` and the other types on p. 78). Fill *University* and *Place*. |
 | No author | *Short Title* holds the in-text form: `Tren ...`, `UU`, `Melepas`. |
-| Preprint | Item type *Preprint*, *Repository* `arXiv`. |
+| Preprint | Item type *Preprint*, *Repository* `arXiv`, *Genre* `pracetak`. The `[pracetak]` label prints from *Genre*, not from the item type. |
 | Conference paper | *Place* is the meeting place. Meeting dates go in *Extra*: `event-date: 2015-10-19/2015-10-20` (works from CSL JSON; untested through Zotero). |
 | Patent | Inventors as *Inventor*. *Issuing Authority* = the country (`Indonesia`), *Patent Number* = country code and number (`ID S000010062`), *Issue Date* = the publication date. The holder goes in *Extra*: `publisher: Institut Pertanian Bogor`, because Zotero exports neither its *Assignee* nor its *Country* field. |
 | Accepted, not yet in an issue | *Extra*: `status: siap terbit` (or `in press`). |
 | Volume with its own title | *Extra*: `volume-title: Pigs, Hippopotamuses, …`. |
 | Unknown year | Leave the date empty; the style prints `[tahun terbit tidak diketahui]`. For a web page, the guide asks for the date it was last updated. |
 | Unknown publisher | Leave *Publisher* empty; the style prints `[penerbit tidak diketahui]`. |
+
+## Entering data in Mendeley
+
+Mendeley has fewer fields than Zotero, so some forms need another route:
+
+| Item | How |
+|---|---|
+| Thesis | *Type*: `skripsi`, `tesis` or `disertasi`. *Institution*: the university. Fill *City* and leave *Country* empty, or it prints `Bogor, Indonesia: …`. |
+| Conference paper | The proceedings title in *Source*; *City* (and *Country*) = the meeting place; *Publisher*. There is no field for the meeting name or its dates. |
+| Document (p. 79) | Type *Generic* with *City* and *Publisher*. The *Report* type has no *Publisher* field. |
+| Preprint | Type *Generic* with *Publisher* `arXiv` and the URL, or *Journal Article* with *Journal* `arXiv`. The `[pracetak]` label does not print: Mendeley has no field for it. |
+| Article type | No field for it, so `[ulasan]` and the like do not print. |
+| Organization as author | The acronym in the *Last name* field. |
+| No author | There is no *Short Title*: the in-text citation carries the whole title. Edit the citation in Word. |
+| Edition | The bare number: `10`, not `10th`. |
+| Journal abbreviation | Automatic. A journal that is not on Mendeley's list prints in full; type its abbreviation into *Journal* if needed. |
+| Patent | *Number* = `ID S000010062`, *Country* = `Indonesia`, the holder in *Publisher*. |
+
+Cite theses through Mendeley Cite in Word: *copy formatted citation* in the desktop app does not carry *Type* and *Institution*.
 
 ## Decisions where the guide is silent or inconsistent
 
@@ -84,8 +113,8 @@ The style prints data as stored. These are set in Zotero:
 | Period after *et al.* | The rule says no extra period (p. 69). The example prints `et al..` (p. 73) | `et al. 2026.` |
 | Online proceedings | The template reads `halaman artikel. Lokasi (URL)`. The example prints `hlm 167–175; [diakses …]. URL` (p. 78) | `hlm 167–175. [diakses …]. URL.` |
 | Place of publication | Gone from books (p. 76), kept in the document and thesis examples (pp. 78–79) | Follows the examples, by item type |
-| DOI and URL | The DOI is shown for journal articles only (7.2.1.6); no journal example without a DOI prints a URL | `doi:` on any item that has one. Without a DOI: a journal article ends at its pages; other types print `[diakses …]. URL` |
-| Preprints | No form | `[pracetak]` after the title |
+| DOI and URL | The DOI is shown for journal articles only (7.2.1.6); no journal example without a DOI prints a URL | `doi:` on any item that has one. Without a DOI: `[diakses …]. URL`, except for a journal article that has a volume or pages |
+| Preprints | No form | `[pracetak]` after the title, from the item's *Genre* |
 | Several works in one citation; the same author | Not covered in the PPTA text | Oldest first, joined by `;`; (Sunarti 2005, 2006); (Puspitawati 2009a, 2009b), carried over from PPKI 4th edition |
 | English wording | PPTA applies to international classes but gives no English forms | Connecting words follow CSE: "and", "In:", "editors", "accessed", "p", "inventor" |
 
@@ -100,7 +129,6 @@ One style, two languages. Only the connecting words and month names change; name
 | Syartinilia, penerjemah. | Syartinilia, translator. |
 | [diakses 2026 Mei 12] | [accessed 2026 May 12] |
 | hlm 290–300 | p 290–300 |
-| [pracetak] | [preprint] |
 | …, penemu; … Paten Indonesia ID … | …, inventor; … Patent Indonesia ID … |
 | [tahun terbit tidak diketahui] | [date unknown] |
 | Agu, Okt, Des, Mei | Aug, Oct, Dec, May |

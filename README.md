@@ -1,6 +1,6 @@
 # ipb-ppta-csl
 
-Gaya sitasi [CSL](https://citationstyles.org/) **tidak resmi** untuk *Pedoman Penyajian Tugas Akhir IPB* (PPTA 2026, Peraturan Rektor IPB Nomor 48 Tahun 2025), Bab VII Kepustakaan: sistem Harvard (nama-tahun) mengikuti CSE edisi ke-9. Dipakai di Zotero dan pandoc.
+Gaya sitasi [CSL](https://citationstyles.org/) **tidak resmi** untuk *Pedoman Penyajian Tugas Akhir IPB* (PPTA 2026, Peraturan Rektor IPB Nomor 48 Tahun 2025), Bab VII Kepustakaan: sistem Harvard (nama-tahun) mengikuti CSE edisi ke-9. Untuk Zotero dan Mendeley.
 
 [English version of this README](README.en.md)
 
@@ -33,8 +33,18 @@ Gaya ini menetapkan bahasa Indonesia sebagai bawaan. Untuk bahasa Inggris gunaka
 
 ### Mendeley
 
-PPTA (hlm. 67) menyebut CSL IPB terpasang di Mendeley. Per 7 Oktober 2026, gaya "Institut Pertanian Bogor" di repositori CSL publik, yang dipakai Mendeley dan Zotero, masih versi PPKI Edisi ke-3 (2016): 10 penulis, tempat terbit, "[diunduh …]". Jika versi Mendeley Anda bisa menambah gaya dari URL, pakai
-`https://raw.githubusercontent.com/Raphcel/ipb-ppta-csl/main/ipb-ppta.csl`.
+Mendeley memasang gaya khusus dari URL:
+
+`https://raw.githubusercontent.com/Raphcel/ipb-ppta-csl/main/ipb-ppta.csl`
+
+- **Mendeley Cite (Word):** *Citation Settings → Change citation style → Add a custom style*, tempel URL di atas, lalu *Update citation style*.
+- **Mendeley Reference Manager:** *Preferences* (Ctrl + ,) → *Formatted Citation Style → Add custom style*, tempel URL lalu *Add*; atau unggah berkas `.csl`-nya.
+
+Bahasa mengikuti gaya, bukan pengaturan bahasa di Mendeley: `ipb-ppta.csl` selalu berbahasa Indonesia. Untuk bahasa Inggris, pakai URL yang sama dengan nama berkas `ipb-ppta-en.csl`. Nama jurnal disingkat otomatis dari daftar singkatan milik Mendeley.
+
+PPTA (hlm. 67) menyebut CSL IPB terpasang di Mendeley. Per 7 Oktober 2026, gaya "Institut Pertanian Bogor" di repositori CSL publik, yang dipakai Mendeley dan Zotero, masih versi PPKI Edisi ke-3 (2016): 10 penulis, tempat terbit, "[diunduh …]".
+
+Diperiksa pada kode Mendeley Reference Manager 2.144.0 dan Mendeley Cite, dengan mesin sitasi yang sama (citeproc-js 1.4.61). Belum diuji dengan mengeklik langsung di Word. Lihat juga [Mengisi data di Mendeley](#mengisi-data-di-mendeley).
 
 ## Bentuk yang dihasilkan
 
@@ -54,7 +64,7 @@ Daftar pustaka, dari contoh-contoh pedoman:
 - UU Republik Indonesia Nomor 20 Tahun 2023 Tentang Aparatur Sipil Negara. 2023.
 - Ramadhan W, Santoso J, Trilaksani W, Rieuwpassa FJ, penemu; Institut Pertanian Bogor. 2025 Mar 10. Proses pembuatan surimi kering beku (tepung surimi) ikan nila dengan penambahan cryoprotectant. Paten Indonesia ID S000010062.
 
-Pracetak (arXiv) tidak ada di pedoman. Gaya ini memakai pola `[ulasan]`/`[editorial]` dari hlm. 74–75: Aghajani Asl M, Minaei-Bidgoli B. 2025. FARSIQA: Faithful and advanced RAG system for Islamic question answering [pracetak]. arXiv. [diakses 2026 Okt 1]. https://arxiv.org/abs/2510.25621.
+Pracetak (arXiv) tidak ada di pedoman. Gaya ini memakai pola `[ulasan]`/`[editorial]` dari hlm. 74–75, dengan label dari isian *Genre*: Aghajani Asl M, Minaei-Bidgoli B. 2025. FARSIQA: Faithful and advanced RAG system for Islamic question answering [pracetak]. arXiv. [diakses 2026 Okt 1]. https://arxiv.org/abs/2510.25621.
 
 ## Mengisi data di Zotero
 
@@ -68,13 +78,32 @@ Gaya mencetak data apa adanya. Hal-hal berikut diatur di Zotero:
 | Jenis artikel | *Extra*: `genre: ulasan` (atau `editorial`, `komunikasi singkat`, `catatan penelitian`, `ulas balik`). |
 | Skripsi, tesis, disertasi | *Type*: `skripsi`, `tesis`, `disertasi` (juga `perangkat lunak`, `studi kasus`, dan jenis lain di hlm. 78). Isi *University* dan *Place*. |
 | Tanpa penulis | *Short Title* berisi bentuk dalam teks: `Tren ...`, `UU`, `Melepas`. |
-| Pracetak | Jenis item *Preprint*, *Repository* `arXiv`. |
+| Pracetak | Jenis item *Preprint*, *Repository* `arXiv`, *Genre* `pracetak`. Label `[pracetak]` dicetak dari *Genre*, bukan dari jenis item. |
 | Prosiding | *Place* = kota pertemuan. Tanggal pertemuan lewat *Extra*: `event-date: 2015-10-19/2015-10-20` (berfungsi dari CSL JSON; belum diuji lewat Zotero). |
 | Paten | Penemu sebagai *Inventor*. *Issuing Authority* = nama negara (`Indonesia`), *Patent Number* = kode negara dan nomor (`ID S000010062`), *Issue Date* = tanggal publikasi. Pemegang paten lewat *Extra*: `publisher: Institut Pertanian Bogor`, karena Zotero tidak mengekspor kolom *Assignee* dan *Country*. |
 | Artikel diterima, belum terbit | *Extra*: `status: siap terbit`. |
 | Volume berjudul | *Extra*: `volume-title: Pigs, Hippopotamuses, …`. |
 | Tahun tidak diketahui | Kosongkan tanggal; gaya mencetak `[tahun terbit tidak diketahui]`. Untuk laman web, pedoman meminta tanggal pemutakhiran. |
 | Penerbit tidak diketahui | Kosongkan *Publisher*; gaya mencetak `[penerbit tidak diketahui]`. |
+
+## Mengisi data di Mendeley
+
+Kolom Mendeley lebih sedikit daripada Zotero, jadi beberapa bentuk perlu cara lain:
+
+| Hal | Cara |
+|---|---|
+| Skripsi, tesis, disertasi | *Type*: `skripsi`, `tesis`, atau `disertasi`. *Institution*: nama universitas. Isi *City* dan kosongkan *Country*, agar tidak tercetak `Bogor, Indonesia: …`. |
+| Prosiding | Judul prosiding di *Source*; *City* (dan *Country*) = tempat pertemuan; *Publisher*. Nama dan tanggal pertemuan tidak punya kolom. |
+| Dokumen (hlm. 79) | Jenis *Generic* dengan *City* dan *Publisher*. Jenis *Report* tidak punya kolom *Publisher*. |
+| Pracetak | Jenis *Generic* dengan *Publisher* `arXiv` dan URL-nya, atau *Journal Article* dengan *Journal* `arXiv`. Label `[pracetak]` tidak tercetak karena Mendeley tidak punya kolomnya. |
+| Jenis artikel | Tidak ada kolomnya, jadi `[ulasan]` dan sejenisnya tidak tercetak. |
+| Organisasi sebagai penulis | Akronimnya di kolom nama belakang (*Last name*). |
+| Tanpa penulis | Tidak ada *Short Title*: sitasi dalam teks memuat judul lengkap. Sunting sitasinya di Word. |
+| Edisi | Angka saja: `10`, bukan `10th`. |
+| Singkatan nama jurnal | Otomatis. Jurnal yang tidak ada di daftar Mendeley dicetak lengkap; ketik singkatannya di *Journal* bila perlu. |
+| Paten | *Number* = `ID S000010062`, *Country* = `Indonesia`, pemegang paten di *Publisher*. |
+
+Skripsi sebaiknya disitasi lewat Mendeley Cite di Word: fitur *copy formatted citation* di aplikasi desktop tidak membawa *Type* dan *Institution*.
 
 ## Keputusan pada bagian yang tidak jelas di pedoman
 
@@ -84,8 +113,8 @@ Gaya mencetak data apa adanya. Hal-hal berikut diatur di Zotero:
 | Titik setelah *et al.* | Aturan: tanpa titik tambahan (hlm. 69). Contoh mencetak `et al..` (hlm. 73) | `et al. 2026.` |
 | Prosiding daring | Templat: `halaman artikel. Lokasi (URL)`. Contoh: `hlm 167–175; [diakses …]. URL` (hlm. 78) | `hlm 167–175. [diakses …]. URL.` |
 | Tempat terbit | Hilang dari buku (hlm. 76); tetap ada pada dokumen dan skripsi (hlm. 78–79) | Mengikuti contoh, per jenis pustaka |
-| DOI dan URL | DOI dicontohkan untuk artikel jurnal saja (7.2.1.6); tidak ada contoh artikel jurnal tanpa DOI yang mencetak URL | `doi:` dicetak untuk jenis apa pun yang memilikinya. Tanpa DOI: artikel jurnal berhenti di halaman; jenis lain mencetak `[diakses …]. URL` |
-| Pracetak | Tidak ada bentuk | `[pracetak]` setelah judul |
+| DOI dan URL | DOI dicontohkan untuk artikel jurnal saja (7.2.1.6); tidak ada contoh artikel jurnal tanpa DOI yang mencetak URL | `doi:` dicetak untuk jenis apa pun yang memilikinya. Tanpa DOI: `[diakses …]. URL`, kecuali artikel jurnal yang sudah punya volume atau halaman |
+| Pracetak | Tidak ada bentuk | `[pracetak]` setelah judul, dari isian *Genre* |
 | Beberapa acuan sekaligus; penulis yang sama | Tidak dibahas di teks PPTA | Urut tahun, dipisah `;`; (Sunarti 2005, 2006); (Puspitawati 2009a, 2009b), diwarisi dari PPKI Edisi 4 |
 | Bahasa Inggris | PPTA berlaku untuk kelas internasional, tetapi tidak memberi bentuk Inggris | Kata penghubung mengikuti CSE: "and", "In:", "editors", "accessed", "p", "inventor" |
 
@@ -100,7 +129,6 @@ Satu gaya, dua bahasa. Yang berubah hanya kata penghubung dan nama bulan; bentuk
 | Syartinilia, penerjemah. | Syartinilia, translator. |
 | [diakses 2026 Mei 12] | [accessed 2026 May 12] |
 | hlm 290–300 | p 290–300 |
-| [pracetak] | [preprint] |
 | …, penemu; … Paten Indonesia ID … | …, inventor; … Patent Indonesia ID … |
 | [tahun terbit tidak diketahui] | [date unknown] |
 | Agu, Okt, Des, Mei | Aug, Oct, Dec, May |

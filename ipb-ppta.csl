@@ -30,7 +30,6 @@
       <term name="et-al">et al.</term>
       <term name="in">di dalam</term>
       <term name="accessed">diakses</term>
-      <term name="preprint">pracetak</term>
       <term name="no date">tahun terbit tidak diketahui</term>
       <term name="patent">paten</term>
       <!-- the role term for authors, blank in every official locale; the patent form uses it as the inventors' label -->
@@ -74,7 +73,6 @@
       <term name="et-al">et al.</term>
       <term name="in">in</term>
       <term name="accessed">accessed</term>
-      <term name="preprint">preprint</term>
       <term name="no date">date unknown</term>
       <term name="patent">patent</term>
       <term name="author">inventor</term>
@@ -198,7 +196,8 @@
     </group>
   </macro>
   <!-- 7.2.2.1: book titles in italics. Titles print as stored: Title Case for books and sentence case for the rest are data jobs.
-       "[pracetak]" is this project's extension (the guide has no preprint form); "[ulasan]", "[skripsi]" come from the item's genre -->
+       "[ulasan]", "[skripsi]" and "[pracetak]" come from the item's genre ("[pracetak]" is this project's extension; the guide has no preprint form).
+       The type cannot mark a preprint: Zotero sends its Preprint as "article", and Mendeley sends its Generic and Computer Program as "article" too -->
   <macro name="title">
     <choose>
       <if type="book" match="any">
@@ -208,12 +207,9 @@
         <group delimiter=" ">
           <text variable="title"/>
           <choose>
-            <if type="article" match="any">
-              <text term="preprint" prefix="[" suffix="]"/>
-            </if>
-            <else-if type="article-journal thesis" match="any">
+            <if type="article article-journal thesis" match="any">
               <text variable="genre" prefix="[" suffix="]"/>
-            </else-if>
+            </if>
           </choose>
         </group>
       </else>
@@ -256,9 +252,6 @@
           </else>
         </choose>
       </if>
-      <else-if type="article">
-        <text variable="publisher"/>
-      </else-if>
       <else>
         <group delimiter=": ">
           <text variable="publisher-place"/>
@@ -327,15 +320,11 @@
   </macro>
   <!-- 7.2.1.6: "doi:10.5454/mi.4.3.1". Without a DOI, 7.2.5d: "[diakses 2019 Sep 1]. URL".
        7.2.4 gives theses one form for print and electronic, so they get neither.
-       7.2.1.8: the journal form ends with the DOI; none of its examples without one prints a URL -->
-  <macro name="access">
+       7.2.1.8: the journal form ends with the DOI; none of its examples without one prints a URL.
+       A journal entry with no volume and no pages (a preprint filed as a journal article) has nothing else to be found by, so it keeps the URL -->
+  <macro name="url">
     <choose>
-      <if type="thesis"/>
-      <else-if variable="DOI">
-        <text variable="DOI" prefix="doi:"/>
-      </else-if>
-      <else-if type="article-journal article-magazine" match="any"/>
-      <else-if variable="URL">
+      <if variable="URL">
         <group delimiter=". ">
           <group prefix="[" suffix="]" delimiter=" ">
             <text term="accessed"/>
@@ -347,7 +336,25 @@
           </group>
           <text variable="URL"/>
         </group>
+      </if>
+    </choose>
+  </macro>
+  <macro name="access">
+    <choose>
+      <if type="thesis"/>
+      <else-if variable="DOI">
+        <text variable="DOI" prefix="doi:"/>
       </else-if>
+      <else-if type="article-journal article-magazine" match="any">
+        <choose>
+          <if variable="volume page status" match="none">
+            <text macro="url"/>
+          </if>
+        </choose>
+      </else-if>
+      <else>
+        <text macro="url"/>
+      </else>
     </choose>
   </macro>
   <!-- 7.1: "(Naim 1984:284)". Oldest first and "(Sunarti 2005, 2006)" are carried over from PPKI 4; the PPTA text is silent -->
@@ -421,11 +428,19 @@
               <text variable="page"/>
             </group>
           </else-if>
-          <!-- 7.2.5a: "Paten Indonesia ID S000010062". The country is the authority variable (Zotero: Issuing Authority), as in APA -->
+          <!-- 7.2.5a: "Paten Indonesia ID S000010062". The country is the authority variable (Zotero: Issuing Authority), as in APA;
+               Mendeley sends a patent's Country as publisher-place -->
           <else-if type="patent">
             <group delimiter=" ">
               <text term="patent" text-case="capitalize-first"/>
-              <text variable="authority"/>
+              <choose>
+                <if variable="authority">
+                  <text variable="authority"/>
+                </if>
+                <else>
+                  <text variable="publisher-place"/>
+                </else>
+              </choose>
               <text variable="number"/>
             </group>
           </else-if>

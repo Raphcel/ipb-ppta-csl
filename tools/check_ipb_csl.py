@@ -55,7 +55,8 @@ REFS = [
         title="GM crops—lessons from medicine", genre="editorial", volume="353", issue="6305", page="1187",
         DOI="10.1126/science.aaj1764"),
     ref("tren", "article-journal", issued=date(2026), container_title="Food Rev Indones", volume="1", issue="1",
-        page="19-21", title="Tren kemasan praktis & inovatif", title_short="Tren ..."),
+        page="19-21", title="Tren kemasan praktis & inovatif", title_short="Tren ...",
+        URL="https://example.org/tren", accessed=date(2026, 10, 7)),
     # 7.2.2 books and chapters (pp. 75-77)
     ref("rusli", "book", author=names("Rusli|S."), issued=date(2012), title="Pengantar Ilmu Kependudukan",
         edition="2", publisher="LP3ES", publisher_place="Jakarta"),
@@ -96,9 +97,10 @@ REFS = [
         publisher_place="Bogor"),
     ref("uu", "legislation", issued=date(2023), title_short="UU",
         title="UU Republik Indonesia Nomor 20 Tahun 2023 Tentang Aparatur Sipil Negara"),
-    # not in the PPTA text. Preprint: this project's form. Same author and year: carried over from PPKI 4.
+    # not in the PPTA text. Preprint: this project's form, with the label taken from the item's genre.
+    # Same author and year: carried over from PPKI 4.
     ref("farsiqa", "article", author=names("Aghajani Asl|M.", "Minaei-Bidgoli|B."), issued=date(2025, 10, 29),
-        title="FARSIQA: Faithful and advanced RAG system for Islamic question answering", publisher="arXiv",
+        title="FARSIQA: Faithful and advanced RAG system for Islamic question answering", publisher="arXiv", genre="pracetak",
         accessed=date(2026, 10, 1), URL="https://arxiv.org/abs/2510.25621"),
     ref("puspa", "article-journal", author=names("Puspitawati|H."), issued=date(2009), title="Alpha",
         container_title="Hayati", volume="1"),
@@ -113,8 +115,8 @@ REFS = [
         title="Microbial aspects of agarwood production", container_title="Book of Abstracts",
         event="International Seminar of Indonesian Society for Microbiology", publisher_place="Bogor, Indonesia",
         event_date={"date-parts": [[2010, 10, 4], [2010, 10, 7]]}),
-    # 7.2.2.1 (p. 76): no publisher. 7.2.1.2 (p. 71): a journal without volume and issue takes the month and day.
-    # 7.2.1.8: a journal entry ends with its DOI and prints no URL
+    # 7.2.2.1 (p. 76): no publisher. 7.2.1.2 (p. 71): a journal without volume and issue takes the month and day;
+    # with no pages either, the URL is all there is to find it by, so it prints
     ref("nopub", "book", author=names("Rusli|S."), issued=date(2013), title="Buku Tanpa Penerbit"),
     ref("greule", "article-journal", author=names("Greule|M."), issued=date(2025, 8, 21), container_title="J Agric Food Chem",
         title="An article not yet in a volume", URL="https://example.org/x", accessed=date(2026, 10, 7)),
@@ -142,6 +144,12 @@ REFS = [
     ref("ramadhan", "patent", author=names("Ramadhan|W.", "Santoso|J.", "Trilaksani|W.", "Rieuwpassa|F. J."), issued=date(2025, 3, 10),
         title="Proses pembuatan surimi kering beku (tepung surimi) ikan nila dengan penambahan cryoprotectant",
         publisher="Institut Pertanian Bogor", authority="Indonesia", number="ID S000010062"),
+    # records as Mendeley hands them over (Reference Manager 2.144 and Mendeley Cite, read 2026-10-07): a Generic document
+    # arrives as "article" with no genre, an organization as a family name, a patent's Country as publisher-place
+    ref("bsn", "article", author=[{"family": "BSN", "given": "", "parse-names": False}], issued=date(2020),
+        title="Dokumen dari Mendeley", publisher="BSN", publisher_place="Jakarta"),
+    ref("patenm", "patent", author=[{"family": "Santoso", "given": "J.", "parse-names": False}], issued=date(2025, 3, 10),
+        title="Paten dari Mendeley", publisher="Institut Pertanian Bogor", publisher_place="Indonesia", number="ID S000010063"),
 ]
 
 CITES = "[@syed] [@rusmana] [@aulia] [@pezzino] [@brett; @syed; @fadillah] [@syed, 284] [@syed, bab 3] [@puspa; @puspb] [@tren] [@uu] @rusmana."
@@ -162,7 +170,7 @@ EXPECTED = {
         # rule (7.2.1.1): no extra period after "et al."; the guide's example prints "et al.."
         "Pezzino V, Berbary C, McKinney C, Sangiorgio C, Moriuchi E, et al. 2026. Working",
         "Hunter J, Duff G. 2016. GM crops—lessons from medicine [editorial]. Science. 353(6305):1187. doi:10.1126/science.aaj1764.",
-        "Tren kemasan praktis & inovatif. 2026. Food Rev Indones. 1(1):19–21.",
+        "Tren kemasan praktis & inovatif. 2026. Food Rev Indones. 1(1):19–21.\n",
         "Rusli S. 2012. Pengantar Ilmu Kependudukan. Ed 2. LP3ES.",
         "Wahyudi AT, Astuti RI, Priyanto JA. 2022. Metode Eksperimen dalam Genetika Bakteri. Nugraha B, editor. IPB Press.",
         "IPB. 2026. Pedoman Penyajian Tugas Akhir. IPB Press.",
@@ -187,7 +195,9 @@ EXPECTED = {
         "Achmadi SS. 2025. A second accepted article. Chem Biodivers., siap terbit.",
         "Di dalam: Book of Abstracts. International Seminar of Indonesian Society for Microbiology; 2010 Okt 4–7; Bogor, Indonesia. Permi Cabang Bogor. hlm 9.",
         "Rusli S. 2013. Buku Tanpa Penerbit. [penerbit tidak diketahui].",
-        "Greule M. 2025 Agu 21. An article not yet in a volume. J Agric Food Chem.\n",
+        "Greule M. 2025 Agu 21. An article not yet in a volume. J Agric Food Chem. [diakses 2026 Okt 7]. https://example.org/x.",
+        "BSN. 2020. Dokumen dari Mendeley. Jakarta: BSN.\n",
+        "Santoso J, penemu; Institut Pertanian Bogor. 2025 Mar 10. Paten dari Mendeley. Paten Indonesia ID S000010063.",
         "van der Korn KH, Lagrot JL, DeVita VT Jr. 2020. Names. Nature. 1:1.",
         "Di dalam: Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing. EMNLP 2023; Singapore. Association for Computational Linguistics. hlm 5303–5315. doi:10.18653/v1/2023.emnlp-main.322.\n",
     ],
@@ -195,7 +205,7 @@ EXPECTED = {
         "(Rusmana and Nedwell 2024)", "Rusmana and Nedwell (2024)", "(Syed 2024:284)",
         "In: Aguirre AA, Sukumar R, editors. Tropical Conservation: Perspectives on Local and Global Priorities. Oxford University Press. p 290–300.",
         "; 2015 Oct 19–20; Bogor, Indonesia.", "Syartinilia, translator. IPB Press.", "[accessed 2026 May 12]. https://",
-        "question answering [preprint]. arXiv.", "Buku Tanpa Penerbit. [publisher unknown].",
+        "question answering [pracetak]. arXiv. [accessed 2026 Oct 1].", "Buku Tanpa Penerbit. [publisher unknown].",
         "Rieuwpassa FJ, inventor; Institut Pertanian Bogor. 2025 Mar 10.", "Patent Indonesia ID S000010062.",
     ],
 }
