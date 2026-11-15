@@ -171,23 +171,25 @@
       </else>
     </choose>
   </macro>
-  <!-- 7.2.1.2: "2025 Agu 21" for news, web pages, and journals without volume and issue (p. 75 keeps the bare year for "siap terbit") -->
+  <!-- 7.2.1.2: "2025 Agu 21" for news, web pages, and journals without volume and issue (p. 75 keeps the bare year for "siap terbit").
+       The space is a prefix on each date part, not a group delimiter: Typst keeps the delimiter even when a year-only date
+       renders nothing, which printed "2026 ." -->
   <macro name="date">
-    <group delimiter=" ">
+    <group>
       <text macro="year"/>
       <choose>
         <if type="article-newspaper webpage post post-weblog patent" match="any">
-          <date variable="issued" delimiter=" ">
-            <date-part name="month" form="short"/>
-            <date-part name="day"/>
+          <date variable="issued">
+            <date-part name="month" form="short" prefix=" "/>
+            <date-part name="day" prefix=" "/>
           </date>
         </if>
         <else-if type="article-journal article-magazine" match="any">
           <choose>
             <if variable="volume issue status" match="none">
-              <date variable="issued" delimiter=" ">
-                <date-part name="month" form="short"/>
-                <date-part name="day"/>
+              <date variable="issued">
+                <date-part name="month" form="short" prefix=" "/>
+                <date-part name="day" prefix=" "/>
               </date>
             </if>
           </choose>
@@ -228,15 +230,20 @@
       </else>
     </choose>
   </macro>
-  <!-- 7.2.2.2 (p. 77): "Vol 6: Pigs, Hippopotamuses, ..." when the volume has its own title -->
+  <!-- 7.2.2.2 (p. 77): "Vol 6: Pigs, Hippopotamuses, ..." when the volume has its own title.
+       Only with a volume number: Typst fills volume-title with a proceedings' booktitle, which printed the title twice -->
   <macro name="volume">
-    <group delimiter=": ">
-      <group delimiter=" ">
-        <text term="volume" form="short"/>
-        <number variable="volume"/>
-      </group>
-      <text variable="volume-title" font-style="italic"/>
-    </group>
+    <choose>
+      <if variable="volume">
+        <group delimiter=": ">
+          <group delimiter=" ">
+            <text term="volume" form="short"/>
+            <number variable="volume"/>
+          </group>
+          <text variable="volume-title" font-style="italic"/>
+        </group>
+      </if>
+    </choose>
   </macro>
   <!-- 7.2.2-7.2.3: books, chapters and proceedings name the publisher only, or "[penerbit tidak diketahui]" (p. 76);
        7.2.4 and 7.2.5e keep "Bogor: Institut Pertanian Bogor" -->
@@ -253,9 +260,17 @@
         </choose>
       </if>
       <else>
+        <!-- 7.2.5e: "Bogor: KMM-IPB". Typst puts a BibTeX report's institution in authority, not publisher -->
         <group delimiter=": ">
           <text variable="publisher-place"/>
-          <text variable="publisher"/>
+          <choose>
+            <if variable="publisher">
+              <text variable="publisher"/>
+            </if>
+            <else-if type="report">
+              <text variable="authority"/>
+            </else-if>
+          </choose>
         </group>
       </else>
     </choose>
@@ -357,7 +372,10 @@
       </else>
     </choose>
   </macro>
-  <!-- 7.1: "(Naim 1984:284)". Oldest first and "(Sunarti 2005, 2006)" are carried over from PPKI 4; the PPTA text is silent -->
+  <!-- 7.1: "(Naim 1984:284)". Oldest first and "(Sunarti 2005, 2006)" are carried over from PPKI 4; the PPTA text is silent.
+       Typst 0.15 prints "(Sunarti 2005; 2006)". An explicit cite-group-delimiter=", " fixes that there but also puts
+       ", " between different authors ("(Paulk 1992, Ma 2023)"), so it stays unset; pandoc and Zotero use the ", " default -->
+
   <citation et-al-min="3" et-al-use-first="1" disambiguate-add-year-suffix="true" collapse="year">
     <sort>
       <key variable="issued"/>
@@ -387,7 +405,7 @@
     <sort>
       <key macro="author"/>
       <key variable="issued"/>
-      <key variable="title"/>
+      <!-- no title key: Typst gives "2026a, b, c" in order of first citation, so sorting same-year items by title put c before b -->
     </sort>
     <layout suffix=".">
       <group delimiter=". ">
@@ -422,7 +440,15 @@
           </else-if>
           <!-- 7.2.5b-d: "Media Indonesia. Rubrik Opini: 9" -->
           <else-if type="article-newspaper webpage post post-weblog" match="any">
-            <text variable="container-title"/>
+            <choose>
+              <if variable="container-title">
+                <text variable="container-title"/>
+              </if>
+              <else>
+                <!-- Typst reads a BibTeX @misc with a URL as a webpage; an arXiv preprint keeps its "arXiv" -->
+                <text variable="publisher"/>
+              </else>
+            </choose>
             <group delimiter=": ">
               <text variable="section"/>
               <text variable="page"/>
@@ -446,6 +472,12 @@
           </else-if>
           <!-- books, theses, documents, preprints, legal documents -->
           <else>
+            <choose>
+              <!-- report number, e.g. "CMU/SEI-92-TR-020"; the guide has no report form -->
+              <if type="report">
+                <text variable="number"/>
+              </if>
+            </choose>
             <text macro="edition"/>
             <text macro="volume"/>
             <names variable="editor translator" delimiter=". ">

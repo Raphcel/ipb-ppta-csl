@@ -1,6 +1,6 @@
 """Render the PPTA 2026 Bab VII examples through ipb-ppta.csl and assert the guide's forms.
 
-Run it with python from any folder (needs pandoc on PATH).
+Run it with python from any folder (needs pandoc on PATH; typst on PATH adds the Typst check at the end).
 
 Fixtures are the guide's own examples (printed pp. 73-80), with initials as printed there.
 Where an example contradicts the guide's rule, the rule is asserted and the line says so.
@@ -9,6 +9,7 @@ import html
 import json
 import pathlib
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -224,7 +225,14 @@ with tempfile.TemporaryDirectory() as tmp:
         run = subprocess.run(
             ["pandoc", "--citeproc", f"--bibliography={bib}", f"--csl={CSL}", "-M", f"lang={lang}", "-t", "html", "--wrap=none"],
             input=text, capture_output=True, text=True, encoding="utf-8")
-        if run.returncode or run.stderr:  # a broken style, or a warning such as "citation not found"
+        missing_indonesian_translation = (
+            lang == "id-ID"
+            and "Could not load translations for id-ID" in run.stderr
+            and "data file translations/id.yaml not found" in run.stderr
+            and "The term Abstract has no translation defined." in run.stderr
+        )
+        if run.returncode or (run.stderr and not missing_indonesian_translation):
+            # A missing Pandoc translation is harmless: the CSL defines its own Indonesian terms.
             sys.exit(f"{lang}: pandoc said:\n{run.stderr}")
         out = html.unescape(run.stdout)
         plain = html.unescape(re.sub(r"<[^>]+>", "", run.stdout))
@@ -237,3 +245,40 @@ with tempfile.TemporaryDirectory() as tmp:
         if missing:  # sys.exit, not assert: python -O must not turn the check off
             sys.exit(f"{lang}: missing {missing}\n--- output ---\n{plain}")
         print(f"{lang}: ok ({len(expected)} forms)")
+
+# Typst maps BibTeX to CSL its own way and pandoc cannot show it: these are the cases the style was changed for
+TYPST_BIB = r"""
+@article{a, author={Syed, J.}, year={2026}, title={Tahun saja}, journal={Energies}}
+@misc{m, author={Doe, J.}, year={2026}, title={P}, publisher={arXiv}, url={https://arxiv.org/abs/1}}
+@inproceedings{c, author={Ma, X.}, year={2023}, title={Query rewriting}, booktitle={Proceedings of EMNLP}, publisher={ACL}, pages={1--2}}
+@techreport{r, author={Paulk, M.}, year={1992}, title={Capability maturity model}, institution={Software Engineering Institute},
+  number={CMU/SEI-92-TR-020}, address={Pittsburgh}}
+@book{z1, author={Zed, A.}, year={2025}, title={Charlie}, publisher={P}}
+@book{z2, author={Zed, A.}, year={2025}, title={Bravo}, publisher={P}}
+"""
+TYPST_EXPECTED = [
+    "Syed J. 2026. Tahun saja. Energies.",  # not "2026 ." from a group delimiter kept after an empty date
+    "Doe J. 2026. P. arXiv. https://arxiv.org/abs/1.",  # @misc with a URL becomes a webpage
+    "Ma X. 2023. Query rewriting. Di dalam: Proceedings of EMNLP. ACL. hlm 1–2.",  # booktitle once, not again as volume-title
+    "Paulk M. 1992. Capability maturity model. CMU/SEI-92-TR-020. Pittsburgh: Software Engineering Institute.",
+    # Typst gives suffixes in citation order; a title sort key listed "2025b. Bravo" before "2025a. Charlie"
+    "Zed A. 2025a. Charlie. P.Zed A. 2025b. Bravo. P.",  # adjacent entries: tags are stripped with no separator
+]
+if shutil.which("typst"):
+    with tempfile.TemporaryDirectory() as tmp:
+        shutil.copy(CSL, tmp)
+        pathlib.Path(tmp, "refs.bib").write_text(TYPST_BIB, encoding="utf-8")
+        pathlib.Path(tmp, "t.typ").write_text(
+            f'#set text(lang: "id")\n@a @m @c @r @z1 @z2\n#bibliography("refs.bib", style: "{CSL.name}")\n', encoding="utf-8")
+        # ponytail: HTML export is experimental in Typst 0.15; switch to `typst query` or pdftotext if it changes shape
+        run = subprocess.run(["typst", "compile", "--features", "html", "--format", "html", "t.typ", "t.html"],
+                             cwd=tmp, capture_output=True, text=True, encoding="utf-8")
+        if run.returncode:
+            sys.exit(f"typst said:\n{run.stderr}")
+        plain = html.unescape(re.sub(r"<[^>]+>", "", pathlib.Path(tmp, "t.html").read_text(encoding="utf-8")))
+    missing = [e for e in TYPST_EXPECTED if e not in plain]
+    if missing:
+        sys.exit(f"typst: missing {missing}\n--- output ---\n{plain}")
+    print(f"typst: ok ({len(TYPST_EXPECTED)} forms)")
+else:
+    print("typst: skipped (not on PATH)")
