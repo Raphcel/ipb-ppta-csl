@@ -9,7 +9,7 @@ Untuk pemelihara gaya; pengguna Zotero atau Mendeley tidak memerlukan folder ini
 | `make_en.py` | Membuat `ipb-ppta-en.csl` dari `ipb-ppta.csl`. *Derives `ipb-ppta-en.csl` from `ipb-ppta.csl`.* |
 
 ```sh
-python tools/check_ipb_csl.py      # butuh pandoc 3 di PATH / needs pandoc 3 on PATH
+python tools/check_ipb_csl.py      # butuh pandoc 3 di PATH; typst opsional / needs pandoc 3 on PATH; typst optional
 python tools/make_en.py            # setelah mengubah ipb-ppta.csl / after changing ipb-ppta.csl
 python tools/make_en.py --check    # apakah ipb-ppta-en.csl sinkron? / is ipb-ppta-en.csl in sync?
 ```
